@@ -1,0 +1,6 @@
+{
+  "name": "Snacke LIVE",
+  "description": "Snacke LIVE autônomo para transmissões TikTok LIVE de @rainz878 com conector Termux, detecção real de presentes e efeitos dinâmicos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

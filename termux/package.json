@@ -1,0 +1,14 @@
+{
+  "name": "snacke-live-termux-connector",
+  "version": "1.0.0",
+  "description": "TikTok LIVE Real Connector for Termux on Android POCO C65",
+  "main": "termux-connector.js",
+  "type": "module",
+  "scripts": {
+    "start": "node termux-connector.js"
+  },
+  "dependencies": {
+    "tiktok-live-connector": "^1.2.0",
+    "dotenv": "^16.4.5"
+  }
+}
