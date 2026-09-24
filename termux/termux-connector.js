@@ -12,7 +12,7 @@
 
 import crypto from 'crypto';
 import dotenv from 'dotenv';
-import { WebcastPushConnection } from 'tiktok-live-connector';
+import { TikTokLiveConnection, WebcastEvent } from 'tiktok-live-connector';
 
 dotenv.config();
 
@@ -35,9 +35,9 @@ let reconnectAttempt = 0;
 const MAX_RECONNECT_DELAY_MS = 60000;
 
 // Instancia a conexão real com a TikTok LIVE
-const tiktokConnection = new WebcastPushConnection(TIKTOK_USERNAME, {
+const tiktokConnection = new TikTokLiveConnection(TIKTOK_USERNAME, {
   processInitialData: false,
-  enableExtendedGiftInfo: true,
+  enableExtendedGiftInfo: false,
   enableWebsocketUpgrade: true,
   requestPollingIntervalMs: 2000,
   clientParams: {
@@ -143,7 +143,7 @@ async function connectToTikTok() {
 // -------------------------------------------------------------
 
 // Presentes
-tiktokConnection.on('gift', async (data) => {
+tiktokConnection.on(WebcastEvent.GIFT, async (data) => {
   try {
     // Tratar combos do TikTok:
     // giftType === 1 representa presentes que podem fazer streak (combos como Rosa).
@@ -187,14 +187,14 @@ tiktokConnection.on('gift', async (data) => {
 });
 
 // Encerramento da LIVE
-tiktokConnection.on('streamEnd', () => {
+tiktokConnection.on(WebcastEvent.STREAM_END, () => {
   console.log('[TIKTOK] A transmissão LIVE de @' + TIKTOK_USERNAME + ' foi encerrada.');
   isStreamLive = false;
   sendHeartbeat();
 });
 
 // Desconexão
-tiktokConnection.on('disconnected', () => {
+tiktokConnection.on(WebcastEvent.DISCONNECTED, () => {
   console.warn('[TIKTOK] Conexão com TikTok perdida.');
   isLiveConnected = false;
   sendHeartbeat();
@@ -203,7 +203,7 @@ tiktokConnection.on('disconnected', () => {
 });
 
 // Erros
-tiktokConnection.on('error', (err) => {
+tiktokConnection.on(WebcastEvent.ERROR, (err) => {
   console.error('[TIKTOK] Erro no stream:', err);
 });
 
